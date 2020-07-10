@@ -42,6 +42,7 @@ public class boardServiceImp implements boardService {
 	@Override
 	public void updateBoard(BoardVo board) {
 		board.setIsDel('N');
+		//수정할 때 setIsDel의 값을 주지 않기때문에 null이 들어간다. 그래서 N으로 넣어줘ㅑ야
 		boardDao.updateBoard(board);
 		/*dao한테 update~ 요청*/
 		

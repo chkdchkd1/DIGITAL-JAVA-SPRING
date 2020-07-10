@@ -114,7 +114,7 @@ public class BoardController {
 	public ModelAndView boardModifyPost(ModelAndView mv,BoardVo board) {
 		logger.info("URI:/board/modify:POST");
 		 mv.setViewName("redirect:/board/list");
-		 /*post는 보통 redirect로 같이 온다. redirect : 이 작업이 끝나면 여기로 가긔 */
+		 /*post는 보통 redirect로 같이 온다. redirect : 이 작업이 끝나면 여기로 가긔 (setviewname 여기를 보여줘라)*/
 		 /*modify.jsp의 name이 BoardVo의 멤버 변수랑 같아야한다. BoardVo의 이름이 중요 X 같은게 중요*/
 		 BoardService.updateBoard(board);
 		 /*새로운 게시판 정보를 알려줄테니까 업데이트를 해라 ~*/
