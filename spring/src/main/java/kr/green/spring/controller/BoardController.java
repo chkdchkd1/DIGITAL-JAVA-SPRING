@@ -1,6 +1,7 @@
 package kr.green.spring.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,6 +90,55 @@ public class BoardController {
 		return mv;
 	}
 	
+	@RequestMapping(value = "/board/modify", method = RequestMethod.GET)
+	/* a 태그는 get 방식 수정버튼의 a 태그*/
+	public ModelAndView boardModifyGet(ModelAndView mv, Integer num) {
+//		integer로 하는 이유는  null값을 넣을 수 있기 때문에 /board/detail? 으로와도 빈페이지를 보여주기위해서 int는 null X  
+		logger.info("URI:/board/modify:GET");
+		 mv.setViewName("/board/modify");
+		 
+		 logger.info("전송된 글번호 :"+num);
+		 BoardVo board = null;
+		 if(num !=null) {
+			 board = BoardService.getBoard(num);
+		 }
+		 mv.addObject("board", board);
+	
+		 
+		return mv;
+	}
+	
+	
+	@RequestMapping(value = "/board/modify", method = RequestMethod.POST)
+	/* 수정하기는 post 이기에 */
+	public ModelAndView boardModifyPost(ModelAndView mv,BoardVo board) {
+		logger.info("URI:/board/modify:POST");
+		 mv.setViewName("redirect:/board/list");
+		 /*post는 보통 redirect로 같이 온다. redirect : 이 작업이 끝나면 여기로 가긔 */
+		 /*modify.jsp의 name이 BoardVo의 멤버 변수랑 같아야한다. BoardVo의 이름이 중요 X 같은게 중요*/
+		 BoardService.updateBoard(board);
+		 /*새로운 게시판 정보를 알려줄테니까 업데이트를 해라 ~*/
+		 
+		return mv;
+	}
+	
+	@RequestMapping(value = "/board/delete", method = RequestMethod.GET)
+	public ModelAndView boardDeleteGet(ModelAndView mv,Integer num) {
+		logger.info("URI:/board/delete:GET");
+		 mv.setViewName("redirect:/board/list");
+	
+		 BoardService.deleteBoard(num);
+		 /*삭제하고싶은 글 번호를 줄테니 동일한 넘버의 db를 지워라..?*/
+		 /*컨트롤러 ->서비스에 역할 분담 */
+		 
+		return mv;
+	}
+	
+	
 	/* controller > service > serviceImp > dao > mapper 순으로 진행 ,, !  */
+	/* */
+	
+	
+ 
 
 }

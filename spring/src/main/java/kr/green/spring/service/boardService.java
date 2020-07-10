@@ -14,4 +14,8 @@ public interface boardService {
 
 	void registerBoard(BoardVo board);
 
+	void updateBoard(BoardVo board);
+
+	void deleteBoard(Integer num);
+
 }
