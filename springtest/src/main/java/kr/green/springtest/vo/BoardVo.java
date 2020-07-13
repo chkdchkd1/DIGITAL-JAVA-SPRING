@@ -1,39 +1,35 @@
-package kr.green.spring.vo;
+package kr.green.springtest.vo;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class BoardVo {
-	// 변수명이 DB랑 똑같아야한다
-	
 	private int num;
-	private String writer;
 	private String title;
+	private String writer;
 	private String content;
 	private Date registerDate;
 	private char isDel;
 	private int views;
 	private Date delDate;
-		
-	
 	public int getNum() {
 		return num;
 	}
 	public void setNum(int num) {
 		this.num = num;
 	}
-	public String getWriter() {
-		return writer;
-	}
-	public void setWriter(String writer) {
-		this.writer = writer;
-	}
 	public String getTitle() {
 		return title;
 	}
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	public String getwriter() {
+		return writer;
+	}
+	public void setwriter(String writer) {
+		this.writer = writer;
 	}
 	public String getContent() {
 		return content;
@@ -43,23 +39,22 @@ public class BoardVo {
 	}
 	public String getRegisterDate() {
 		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String to = transFormat.format(registerDate);
-		return to;
+		String date = transFormat.format(registerDate);
+		return date;
 	}
 	public void setRegisterDate(Date registerDate) {
-		
 		this.registerDate = registerDate;
 	}
-	public void setRegisterDate(String date) {
+	
+	public void setRegisterDate(String registerDate) {
 		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
 		try {
-			registerDate = transFormat.parse(date);
+			this.registerDate = transFormat.parse(registerDate);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-
+	
 	public char getIsDel() {
 		return isDel;
 	}
@@ -78,10 +73,9 @@ public class BoardVo {
 	public void setDelDate(Date delDate) {
 		this.delDate = delDate;
 	}
-	
 	@Override
 	public String toString() {
-		return "BoardVo [num=" + num + ", writer=" + writer + ", title=" + title + ", content=" + content
+		return "BoardVo [num=" + num + ", title=" + title + ", writer=" + writer + ", content=" + content
 				+ ", registerDate=" + registerDate + ", isDel=" + isDel + ", views=" + views + ", delDate=" + delDate
 				+ "]";
 	}
