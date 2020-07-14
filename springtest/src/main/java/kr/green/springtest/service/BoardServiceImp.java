@@ -22,14 +22,27 @@ public class BoardServiceImp implements BoardService {
 
 	@Override
 	public BoardVo getBoardDetail(Integer num) {
-		// TODO Auto-generated method stub
+		if(num == null) 
+			return null;
 		return boardDao.getBoardDetail(num);
 	}
 
+	
+
 	@Override
-	public void increaseView(Integer num) {
-		boardDao.increaseView(num);
+	public void registerBoard(BoardVo board) {
+		boardDao.registerBoard(board);
 		
+	}
+
+	@Override
+	public BoardVo view(Integer num) {
+		BoardVo board = getBoardDetail(num);
+		if(board != null) {
+			board.setViews(board.getViews()+1);
+			boardDao.updateBoard(board);
+		}
+		return board;
 	}
 
 	

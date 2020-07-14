@@ -10,11 +10,20 @@
     select * from board where num = #{num}
   </select>
  
-  <update id="increaseView">
+  <update id="updateBoard">
     update board 
     	set 
-    		views = views+1
+    		title = #{board.title},
+    		content = #{board.content},
+    		isDel = #{board.isDel},
+    		delDate = #{board.delDate},
+    		views = #{board.views}
     	where 
-    		num = #{num} 
+    		num = #{board.num} 
   </update>
+  <insert id="registerBoard">
+  insert into 
+  	board (title,writer,content)
+	values (#{board.title}, #{board.writer}, #{board.content})
+  </insert>
 </mapper>

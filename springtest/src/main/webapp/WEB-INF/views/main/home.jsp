@@ -14,8 +14,8 @@
 		<input type="password" name ="pw" placeholder="비밀번호">
 		<button>로그인</button>
 	</form>
-	<input type="hidden" value=${isLogin} id ="isLogin" >
-	<input type="hidden" value=${id} id = "id">
+	<input type="hidden" value="${isLogin}" id ="isLogin" >
+	<input type="hidden" value="${id}" id = "id">
 	
 	<script type ="text/javascript">
 	$(function(){

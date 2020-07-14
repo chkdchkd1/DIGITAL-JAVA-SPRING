@@ -47,22 +47,31 @@ public class BoardController {
 		logger.info("URI:/board/detail");
 		mv.setViewName("/board/detail"); // 저 위치와 연결 
 		
-		BoardVo detail = null;
+		BoardVo board = null;
+		board = boardService.view(num);
+		mv.addObject("board", board);
 		
-		if(num != null) {
-			detail = boardService.getBoardDetail(num);
-			mv.addObject("detail", detail);
-		} 
-		
-		if( detail != null ) {
-			boardService.increaseView(num);
-			detail.setViews(detail.getViews()+1);
-			
-		}
 		return mv;
 	}
 	
 	
+	@RequestMapping(value = "/board/register", method = RequestMethod.GET)
+	public ModelAndView BoardRegisterGet(ModelAndView mv) {
+		logger.info("URI:/board/register");
+		mv.setViewName("/board/register"); // 저 위치와 연결 
+		
+		return mv;
+	}
+	
+	@RequestMapping(value = "/board/register", method = RequestMethod.POST)
+	public ModelAndView BoardRegisterPost(ModelAndView mv, BoardVo board) {
+		logger.info("URI:/board/register");
+		mv.setViewName("redirect:/board/list"); // 저 위치와 연결 
+
+		boardService.registerBoard(board);
+		
+		return mv;
+	}
 	
 }
 

@@ -35,4 +35,6 @@
 	      </c:if>
     </tbody>
   </table>
+    <a href="<%=request.getContextPath()%>/board/register">
+  <button type="submit" class="btn btn-primary">글쓰기</button></a>
 </div>
