@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.green.spring.dao.BoardDao;
+import kr.green.spring.pagination.Criteria;
+import kr.green.spring.pagination.PageMaker;
 import kr.green.spring.vo.BoardVo;
 
 @Service
@@ -16,16 +18,16 @@ public class boardServiceImp implements boardService {
 	private BoardDao boardDao;
 
 	@Override
-	public ArrayList<BoardVo> getBoardList() {
+	public ArrayList<BoardVo> getBoardList(Criteria cri) {
 		// TODO Auto-generated method stub
-		return boardDao.getBoardList();
+		return boardDao.getBoardList(cri);
 	}
 
 	@Override
 	public BoardVo getBoard(Integer num) {
-		// TODO Auto-generated method stub
 		return boardDao.getBoard(num);
 	}
+	
 
 	@Override
 	public void increaseVievws(Integer num) {
@@ -39,14 +41,7 @@ public class boardServiceImp implements boardService {
 		
 	}
 
-	@Override
-	public void updateBoard(BoardVo board) {
-		board.setIsDel('N');
-		//수정할 때 setIsDel의 값을 주지 않기때문에 null이 들어간다. 그래서 N으로 넣어줘ㅑ야
-		boardDao.updateBoard(board);
-		/*dao한테 update~ 요청*/
-		
-	}
+	
 
 	@Override
 	public void deleteBoard(Integer num) {
@@ -60,4 +55,24 @@ public class boardServiceImp implements boardService {
 		 }
 		
 	}
+
+	@Override
+	public void updateBoard(BoardVo board) {
+			board.setIsDel('N');
+			//수정할 때 setIsDel의 값을 주지 않기때문에 null이 들어간다. 그래서 N으로 넣어줘ㅑ야
+			boardDao.updateBoard(board);
+			/*dao한테 update~ 요청*/
+		
+	}
+
+	@Override
+	public PageMaker getPageMaker(Criteria cri) {
+		PageMaker pm = new PageMaker();
+		int totalCount = boardDao.getTotalCount();
+		pm.setCriteria(cri);
+		pm.setTotalCount(totalCount);
+		return pm;
+	}
+
+
 }

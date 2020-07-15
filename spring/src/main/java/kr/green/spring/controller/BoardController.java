@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.green.spring.pagination.Criteria;
+import kr.green.spring.pagination.PageMaker;
 import kr.green.spring.service.boardService;
 import kr.green.spring.vo.BoardVo;
 
@@ -23,18 +25,22 @@ public class BoardController {
 	private boardService BoardService;
 	
 	@RequestMapping(value = "/board/list", method = RequestMethod.GET)
-	public ModelAndView boardListGet(ModelAndView mv) {
+	public ModelAndView boardListGet(ModelAndView mv, Criteria cri) {
 		logger.info("URI:/board/list");
-		
 		 mv.setViewName("/board/list");
+		 PageMaker pm = BoardService.getPageMaker(cri);
+		 
 		 ArrayList<BoardVo> list;
-		 list = BoardService.getBoardList();
+		 
+		 list = BoardService.getBoardList(cri);
 		 /*여기서 배열을 만드는게 아니라 데이터베이스가 만들어서 건네준걸 활용*/
 
 		 mv.addObject("list",list);    
 		 // mv를 리턴하면 전달받은 페이지 (*html, *jsp)에서 표현언어로 출력. 접근 가능 
 		 // ex)mav.addobject("type","student") 에서 지정한 객체의 이름인 ${type} 를이용해서 값인 student를 가져올 수 있음
-		 // 
+		 
+		 mv.addObject("pm", pm);
+		 System.out.println(pm);
 		 
 		 
 		return mv;
@@ -133,6 +139,8 @@ public class BoardController {
 		 
 		return mv;
 	}
+	
+	
 	
 	
 	/* controller > service > serviceImp > dao > mapper 순으로 진행 ,, !  */

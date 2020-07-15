@@ -3,7 +3,8 @@
     pageEncoding="UTF-8"%>
     
   <h2>Hover Rows</h2>
-  <p>The .table-hover class enables a hover state (grey background on mouse over) on table rows:</p>            
+  <p>The .table-hover class enables a hover state (grey background on mouse over) on table rows:</p>   
+  <br>         
   <table class="table table-hover">
 	    <thead>
 	      <tr>
@@ -27,3 +28,16 @@
 	      </c:forEach>
 	    </tbody>
   </table>
+  <br>
+   <ul class="pagination justify-content-center">
+   	  <c:if test = "${pm.prev}">
+	 	 <li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${pm.startPage-1}">Previous</a></li>
+	  </c:if>
+	  <c:forEach var="index" begin="${pm.startPage}" end="${pm.endPage}">
+	   	  <li class="page-item <c:if test="${index == pm.criteria.page}">active</c:if>">
+	   	  <a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${index}">${index}</a></li>
+	  </c:forEach>
+	   <c:if test = "${pm.next}">
+	  	<li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${pm.endPage+1}">Next</a></li>
+	   </c:if>
+</ul>
