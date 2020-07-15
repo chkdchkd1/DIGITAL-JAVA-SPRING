@@ -73,6 +73,30 @@ public class BoardController {
 		return mv;
 	}
 	
+	@RequestMapping(value = "/board/modify", method = RequestMethod.GET)
+	public ModelAndView boardModifyGet(ModelAndView mv, Integer num) {
+		mv.setViewName("/board/modify");
+		BoardVo board = boardService.getBoardDetail(num);
+		mv.addObject("board",board);
+		return mv;
+	}
+	
+	@RequestMapping(value = "/board/modify", method = RequestMethod.POST)
+	public ModelAndView boardModifyGet(ModelAndView mv, BoardVo board) {
+		mv.setViewName("redirect:/board/list");
+		boardService.updateBoard(board);
+		return mv;
+	}
+	
+	
+	@RequestMapping(value = "/board/delete", method = RequestMethod.GET)
+	public ModelAndView BoardDeleteGet(ModelAndView mv, Integer num) {
+		mv.setViewName("redirect:/board/list"); // 저 위치와 연결 
+		
+		boardService.deleteBoard(num);
+		return mv;
+	}
+	
 }
 
 

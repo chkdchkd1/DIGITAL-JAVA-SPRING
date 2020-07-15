@@ -1,5 +1,7 @@
 package kr.green.springtest.service;
 
+import java.util.Date;
+
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +45,24 @@ public class BoardServiceImp implements BoardService {
 			boardDao.updateBoard(board);
 		}
 		return board;
+	}
+
+	@Override
+	public void deleteBoard(Integer num) {
+		BoardVo board = boardDao.getBoardDetail(num);
+		if(board == null)
+				return;
+		board.setIsDel('Y');
+		board.setDelDate(new Date());
+		boardDao.updateBoard(board);;
+		
+	}
+
+		@Override
+		public void updateBoard(BoardVo board) {
+			board.setIsDel('N');
+			boardDao.updateBoard(board);
+		
 	}
 
 	

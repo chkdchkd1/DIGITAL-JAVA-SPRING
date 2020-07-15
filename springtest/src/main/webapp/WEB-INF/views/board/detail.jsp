@@ -52,5 +52,7 @@
   <button type="submit" class="btn btn-primary">글쓰기</button></a>
   <a href="<%=request.getContextPath()%>/board/modify?num=${board.num}">
   <button type="submit" class="btn btn-primary">수정</button></a>
+  <a href="<%=request.getContextPath()%>/board/delete?num=${board.num}">
+  <button type="submit" class="btn btn-primary">삭제</button></a>
 </body>
 </html>
