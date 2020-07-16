@@ -1,0 +1,12 @@
+1.Controller에서 원하는 url (/board/detail) 처리하는 메소드를 생성
+2.해당 메소드가 get이고, 화면을 보여주는 경우 jsp 생성
+3.Controller에서 원하는 정보를 가져오기 위패 service에게 메소드를 이용하여 일을 시킴 (service에 새로운 메소드 생성)
+4.Service는 Controller가 시킨 일을 하기 위해 메소드를 생성(Service와 Servicelmp)하고, Dao를 통해 필요한 정보를 가져옴
+5.Dao는 Service가 시킨 일을 하기 위해 메소드를 생성
+6.Mapper는 Dao에 있는 일을 하기위해 쿼리문을 생성 
+7.Controller에서 Service가 처리한 정보를 화면에 전송
+
+<form action="<%=request.getContextPath()%>/board/register" method="Post">
+- Post : 개인 정보 같은 노출이 되면 안되는 정보, get으로 처리하기엔 긴 내용 
+-action 이 정보를 보낼곳 
+
