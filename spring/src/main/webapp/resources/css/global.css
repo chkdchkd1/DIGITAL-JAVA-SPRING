@@ -3,3 +3,7 @@
 .container.body{
 	min-height: 800px
 }
+
+.page-link>.fas{
+	line-height:20px
+}

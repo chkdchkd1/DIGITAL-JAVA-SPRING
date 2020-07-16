@@ -16,7 +16,7 @@ public class PageMaker {
 		// 다음버튼 활성화 여부 
 		private boolean next;
 		// 페이지네이션에서 보여주는 페이지의 갯수 (숫자를 몇개씩 보여줄지) 
-		private int displayPageNum = 10;
+		private int displayPageNum = 3;
 		// '현재' 페이지 정보 
 		private Criteria criteria;
 
@@ -98,6 +98,10 @@ public class PageMaker {
 
 		public void setCriteria(Criteria criteria) {
 			this.criteria = criteria;
+		}
+		
+		public int getLastEndPage() {
+			return (int)(Math.ceil(totalCount/(double)criteria.getPerPageNum()));
 		}
 		
 		@Override

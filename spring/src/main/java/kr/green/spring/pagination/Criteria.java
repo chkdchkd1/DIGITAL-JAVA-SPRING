@@ -8,10 +8,14 @@ public class Criteria {
 	private int page;
 	//한 페이지 당 컨텐츠 갯수
 	private int perPageNum;
+	private String search;
+	private int type;
 	
 	public Criteria() {
-		this.page = 1;
-		this.perPageNum = 1;
+		page = 1;
+		perPageNum = 3;
+		search = "";
+		type = 0;
 	}
 
 	public int getPage() {
@@ -36,11 +40,31 @@ public class Criteria {
 		this.perPageNum = perPageNum;
 	}
 
+	
+	public String getSearch() {
+		return search;
+	}
+
+	public void setSearch(String search) {
+		this.search = search;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		if(type < 0 || type > 3) 
+			this.type = 0;
+		else 
+			this.type = type;
+	}
+
 	@Override
 	public String toString() {
-		return "Criteria [page=" + page + ", perPageNum=" + perPageNum + "]";
+		return "Criteria [page=" + page + ", perPageNum=" + perPageNum + ", search=" + search + ", type=" + type + "]";
 	}
-	
+
 	public int getPageStart() {
 		// 쿼리문 limit a(시작위치),b(반환갯수) 에서 a 자리에  (0번지) 들어갈 것 
 		return (page - 1 )* perPageNum;

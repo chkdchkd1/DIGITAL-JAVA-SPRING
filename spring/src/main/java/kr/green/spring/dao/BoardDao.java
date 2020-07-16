@@ -21,7 +21,7 @@ public interface BoardDao {
 
 	void deleteBoard(@Param("num")Integer num);
 
-	int getTotalCount();
+	int getTotalCount(@Param("cri")Criteria cri);
 	
 	/*@Param은 매개변수가 2개 이상 올 때 꼭 붙여줘야한다.*/
 

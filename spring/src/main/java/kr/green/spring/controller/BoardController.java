@@ -24,8 +24,14 @@ public class BoardController {
 	@Autowired
 	private boardService BoardService;
 	
+	//url주소와 쿼리스트링은 ?로 구분되며 변수와 값의 쌍으로 구성된다. 여러 쌍의 변수와 값을 전달할경우 각각의 쌍을 &로 구분해주면 된다.
+	// 매개 변수를 전달하는 쿼리입니다. ?pagename=navigation는 'navigation'값을 pagename 매개 변수에 전달합니다. 
 	@RequestMapping(value = "/board/list", method = RequestMethod.GET)
 	public ModelAndView boardListGet(ModelAndView mv, Criteria cri) {
+		// 데이터를 전송하면 매개변수가 받는다 
+		// list?page=11 의 page는 cri의 멤버 변수 page ,
+		// 평소라면 integer page를 주고 list 그페이지의 리스트를 읽어 오게 하려했는데 cri로 줌으로써 멤버 변수와 이름이 같은걸 그냥 읽어오는~ 
+		
 		logger.info("URI:/board/list");
 		 mv.setViewName("/board/list");
 		 PageMaker pm = BoardService.getPageMaker(cri);
@@ -40,16 +46,16 @@ public class BoardController {
 		 // ex)mav.addobject("type","student") 에서 지정한 객체의 이름인 ${type} 를이용해서 값인 student를 가져올 수 있음
 		 
 		 mv.addObject("pm", pm);
-		 System.out.println(pm);
-		 
-		 
+		 // 화면에 pm 전달 
+		 System.out.println(pm);		 
 		return mv;
 	}
 	
 	
 //	http://localhost:8080/spring/board/detail?num=1 페이지 구현 -> 일단 requestMapping을 만들고 jsp 추가 
 	@RequestMapping(value = "/board/detail", method = RequestMethod.GET)
-	public ModelAndView boardDetailGet(ModelAndView mv, Integer num) {
+	public ModelAndView boardDetailGet(ModelAndView mv, Integer num,Criteria cri) {
+		// criteria cri = 현재 페이지 정보를 같이 넘겨준ㄷ ㅏ 
 //		integer로 하는 이유는  null값을 넣을 수 있기 때문에 /board/detail? 으로와도 빈페이지를 보여주기위해서 int는 null X  
 		logger.info("URI:/board/detail");
 		
@@ -66,8 +72,9 @@ public class BoardController {
 
  				}
 		}
+		
 		 mv.setViewName("/board/detail");
-		 
+		 mv.addObject("cri", cri);
 		return mv;
 	}
 	
