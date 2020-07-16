@@ -1,5 +1,56 @@
 @charset "UTF-8";
 
+body{
+	font-family: "Malgun Gothic", "맑은 고딕";
+}
 .container.body{
 	min-height: 800px
 }
+.page-link > i{
+	line-height: 20px	
+}
+
+
+.input-group{
+	width: 610px;
+    margin: 0 auto;
+    display: block;
+    height : 40px
+    
+}
+
+.input-group>.s-1{
+	width: 100px;
+	margin-right:5px;
+	float:left;
+	
+}
+
+.input-group>.s-2{
+	width: 400px;
+	margin-right:5px;
+	float:left;
+	
+}
+
+.input-group>.form-control{
+	flex:0;
+	
+}
+
+
+.btn-primary{	float :right} 
+
+	
+.btn-success {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+    float:left;
+}
+
+.btn-success:hover {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+

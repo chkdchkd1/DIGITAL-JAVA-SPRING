@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.green.springtest.pagination.Criteria;
+import kr.green.springtest.pagination.PageMaker;
 import kr.green.springtest.service.BoardService;
 import kr.green.springtest.service.UserService;
 import kr.green.springtest.vo.BoardVo;
@@ -30,26 +32,29 @@ public class BoardController {
 	
 
 	@RequestMapping(value = "/board/list",method = RequestMethod.GET)
-	public ModelAndView BoardListGet(ModelAndView mv) {
+	public ModelAndView BoardListGet(ModelAndView mv,Criteria cri) {
 		logger.info("URI:/list");
 		mv.setViewName("/board/list"); // 저 위치와 연결 
 		
+		PageMaker pm = boardService.getPageMaker(cri);
 		ArrayList<BoardVo> list;
-		list = boardService.getBoardList();
+		list = boardService.getBoardList(cri);
 		mv.addObject("list", list);
-		
+		mv.addObject("pm", pm);
+		System.out.println(pm);
 		return mv;
 	}
 	
 	
 	@RequestMapping(value = "/board/detail", method = RequestMethod.GET)
-	public ModelAndView BoardDetailGet(ModelAndView mv, Integer num) {
+	public ModelAndView BoardDetailGet(ModelAndView mv, Integer num, Criteria cri) {
 		logger.info("URI:/board/detail");
 		mv.setViewName("/board/detail"); // 저 위치와 연결 
 		
 		BoardVo board = null;
 		board = boardService.view(num);
 		mv.addObject("board", board);
+		mv.addObject("cri", cri);
 		
 		return mv;
 	}
