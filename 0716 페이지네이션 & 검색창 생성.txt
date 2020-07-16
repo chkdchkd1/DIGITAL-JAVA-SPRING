@@ -1,0 +1,52 @@
+>> 페이지네이션 * 검색기능 생성 
+
+1.Criteria 클래스 생성(샘플 코드 참고)
+- 멤버 변수의 역할
+- 멤버 변수가 없는 getPageStart 
+- 생성자에서 초기값 설정
+
+2.PageMaker 클래스 생성
+- 멤버변수의 역할
+- 멤버 변수를 설정하는 메소드의 역할(calcData())
+
+3.Controller에서 PageMaker와 Criteria를 이용하여 작업 (/board/list)
+- 기존의 boardService에게 아무것도 알려주지 않고 일을 시켰는데 (getBoardList()) 현재 페이지, 검색어,
+검색타입을 알려주고 일을 시키도록(ex) getBoardList(cri)) 수정 
+- 현재 페이지, 검색어, 검색타입에 맞게 페이지메이커를 생성하도록 boardService에게 일을 시킨다 
+ ex) PageMaker pm = BoardService.getPageMaker(cri);
+- 화면에 페이지 메이커와 게시글리스트를 전송 (mv.addObject("pm",pm)
+
+4. Service에서 수정된 메서드와 새로 생성된 매서드를 작업 
+ex) ArrayList<BoardVo> getBoardList(Criteria cri) 로 매개변수 추가
+     public PageMaker getPageMaker(Criteria cri) 생성 
+       - 페이지메이커를 만들기 위해 boardDao에게 현재 검색어, 타입에 맞는 게시물 갯수를 알려달라고 일을 시킴 : getTotalCount()
+
+5. Service에서 수정된 메서드와 새로 생성된 메서드를 추가  
+
+6. Mapper에서 쿼리문을 수정하고 새로운 메서드에 맞는 쿼리문을 추가한다 
+ - 타입과 검색어에 맞는 게시글들을 가져 올 수 있도록 쿼리를 수정
+
+7. 화면에서 수정 작업 (ex) list.jsp에서의 작업)
+ -  컨트롤러가 보내준 페이지메이커를 이용하여 페이지네이션을 구성
+ -  검색창과 타입에 검색어와 타입에 맞도록 선택
+ - 게시글 링크를 수정 : 현재 페이지와 검색어가 들어가도록  
+   (ex) href="<%=request.getContextPath()%>/board/list?page=${pm.startPage-1}&type=${pm.criteria.type}&search=${pm.criteria.search}")
+ - 게시글 제목 링크에 검색어,타입을 걸어야 목록버튼을 눌렀을때 타입, 검색어가 들어간다
+ - 페이지네이션 링크에도 현재페이지, 검색어, 타입이 들어가도록 링크를 수정한다
+
+8. 화면에서 수정작업 (ex) detail.jsp에서의 작업)
+ - 목록 버튼생성
+-  목록 버튼 링크에 페이지, 타입, 검색어가 들어가도록 링크 수정
+
+9. Controller 수정 (/board/detail)
+ - 현재페이지 정보를 가져와서 화면에 전송
+ - 매개변수로 Criteria cri 추가 , mv.oddobject("cri",cri)
+-> 이렇게 해주어야 목록버튼의 링크 <a href="<%=request.getContextPath()%>/board/list?&page=${cri.page}&type=${cri.type}&search=${cri.search}">
+의 cri.page, cri.search를 구현 할 수 있다. 
+
+ 
+
+
+
+
+
