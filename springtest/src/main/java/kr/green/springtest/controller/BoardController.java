@@ -37,6 +37,7 @@ public class BoardController {
 		mv.setViewName("/board/list"); // 저 위치와 연결 
 		
 		PageMaker pm = boardService.getPageMaker(cri);
+		//컨트롤러가 알고 있는건 현재 페이지 정보이기에 이걸줄테니 서비스 ㅇㅇ 토탈카운트 구해와서 페이지메이커 만들어라 
 		ArrayList<BoardVo> list;
 		list = boardService.getBoardList(cri);
 		mv.addObject("list", list);
@@ -55,6 +56,7 @@ public class BoardController {
 		board = boardService.view(num);
 		mv.addObject("board", board);
 		mv.addObject("cri", cri);
+		//mv.addobject () = 화면에 정보를 넘긴다 
 		
 		return mv;
 	}

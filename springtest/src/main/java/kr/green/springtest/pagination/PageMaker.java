@@ -15,7 +15,7 @@ public class PageMaker {
 			private boolean prev;
 			// 다음버튼 활성화 여부 
 			private boolean next;
-			// 페이지네이션에서 보여주는 페이지의 갯수 (숫자를 몇개씩 보여줄지) 
+			// 페이지네이션에서 보여주는 페이지의 갯수 (숫자를 몇개씩 보여줄지) ex)3 이면 123/ 456/ 789 이렇게 들어옴
 			private int displayPageNum = 3;
 			// '현재' 페이지 정보 
 			private Criteria criteria;

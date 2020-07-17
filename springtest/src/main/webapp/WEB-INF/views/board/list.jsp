@@ -35,9 +35,10 @@
 	      </c:if>
     </tbody>
   </table>
-  
+  <!-- 검색박스 start -->
   <br>
   <form action="<%=request.getContextPath()%>/board/list">
+  <!-- 폼 데이터(form data)를 서버로 보낼 때 해당 데이터가 도착할 URL -->
 	  <div class="input-group mb-3">
 		  <select class="form-control s-1" id="sel1" name="type">
 		        <option value="0"  <c:if test ="${pm.criteria.type == 0}">selected</c:if>>전체</option>
@@ -49,31 +50,25 @@
 	    <button class="btn btn-success" type="submit">검색</button>
 	</div>
 </form>
-
+<!-- 검색박스 end -->
+<!-- 페이지네이션 start -->
   <br>
   <ul class="pagination justify-content-center">
-  <c:if test = "${pm.prev}">
-    <li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${pm.startPage-1}&type=${pm.criteria.type}&search=${pm.criteria.search}"><i class="fas fa-backward"></i></a></li>
-    </c:if>
-    
-    <c:if test = "${pm.criteria.page != 1}">
-    <li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${pm.criteria.page-1}&type=${pm.criteria.type}&search=${pm.criteria.search}"><i class="fas fa-caret-left"></i></a></li>
-    </c:if>
-    
+    <li class="page-item <c:if test  = "${!pm.prev}">disabled</c:if>"><a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${pm.startPage-1}&type=${pm.criteria.type}&search=${pm.criteria.search}"><i class="fas fa-backward"></i></a></li>
+ 
+    <li class="page-item <c:if test = "${pm.criteria.page == 1}">disabled</c:if>"><a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${pm.criteria.page-1}&type=${pm.criteria.type}&search=${pm.criteria.search}"><i class="fas fa-caret-left"></i></a></li>
+
  	  <c:forEach var="index" begin="${pm.startPage}" end="${pm.endPage}">
 	   	  <li class="page-item <c:if test="${index == pm.criteria.page}">active</c:if>">
 	   	  <a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${index}&type=${pm.criteria.type}&search=${pm.criteria.search}">${index}</a></li>
 	  </c:forEach>
 	  
-	  <c:if test = "${pm.criteria.page != pm.lastEndPage}">
-    	<li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${pm.criteria.page+1}&type=${pm.criteria.type}&search=${pm.criteria.search}"><i class="fas fa-caret-right"></i></a></li>
-    </c:if>
-    
-   <c:if test = "${pm.next}">
-    <li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${pm.endPage+1}&type=${pm.criteria.type}&search=${pm.criteria.search}"><i class="fas fa-forward"></i></a></li>
-    </c:if>
+    <li class="page-item <c:if test = "${pm.criteria.page == pm.lastEndPage}">disabled</c:if>"><a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${pm.criteria.page+1}&type=${pm.criteria.type}&search=${pm.criteria.search}"><i class="fas fa-caret-right"></i></a></li>
+
+    <li class="page-item <c:if test  = "${!pm.next}">disabled</c:if>"><a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${pm.endPage+1}&type=${pm.criteria.type}&search=${pm.criteria.search}"><i class="fas fa-forward"></i></a></li>
   </ul>
   <br>
+ <!-- 페이지네이션 end  -->
     <a href="<%=request.getContextPath()%>/board/register">
   <button type="submit" class="btn btn-primary">글쓰기</button></a>
 </div>
