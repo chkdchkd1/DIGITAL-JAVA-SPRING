@@ -12,6 +12,9 @@
 		        	<a class="nav-link" href="<%= request.getContextPath()%>/">메인</a>
 		      	</li>
 		      	<li class="nav-item">
+		        	<a class="nav-link" href="<%= request.getContextPath()%>/signup">회원가입</a>
+		      	</li>
+		      	<li class="nav-item">
 		        	<a class="nav-link" href="<%= request.getContextPath()%>/board/list">게시판</a>
 		      	</li>
 		      	<li class="nav-item">

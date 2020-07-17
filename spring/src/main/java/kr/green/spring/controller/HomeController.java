@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.green.spring.service.UserService;
+import kr.green.spring.vo.UserVo;
 
 /**
  * Handles requests for the application home page.
@@ -39,30 +40,29 @@ public class HomeController {
 		return mv;
 	}
 	
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public ModelAndView testGet(ModelAndView mv,String id,String pw)  {
-		logger.info("URI:/test");
-		 mv.setViewName("/main/test");
-		 mv.addObject("title","테스트");
-		 logger.info("전송된 아이디 : "+id);
-		 logger.info("전송된 비밀번호 : "+pw);
-		 
-		 String userPw = userService.getPW(id);
-		 logger.info("조회된 비밀번호: "+userPw);
-		 
-		 //현재 데이터베이스에 있는 사람이 몇명인지 조회하는 코드 
-		 int count = userService.getCount();
-		 logger.info("회원 수 :"+count);
-		 
-		 
-		 //해당  아이디 회원이 현재 데이터베이스에 존재 여부 
-		 String check = userService.getCheck(id);
-		 logger.info(" 가입여부  : " +check); 
-		 
-		 // mapper - dao가 자료형이 일치해야하고 & controller - service(serviceImp)이 일치하기만 하면 된다.
-		 
+	@RequestMapping(value = "/signup", method = RequestMethod.GET)
+	public ModelAndView signupGet(ModelAndView mv)  {
+		logger.info("URI:/signup:GET");
+		
+		 mv.setViewName("/main/signup");
 
 		return mv;
 	}
+	
+	@RequestMapping(value = "/signup", method = RequestMethod.POST)
+	public ModelAndView signupPost(ModelAndView mv, UserVo user)  {
+		logger.info("URI:/signup:POST");
+		if(userService.signup(user)) {
+			mv.setViewName("redirect:/");
+		}else {
+			//회원가입에 실패한경우 (아이디 중복 or 이메일 미기재)
+			mv.setViewName("redirect:/signup");
+			//redirect는 value로 넣어주어야 
+			mv.addObject("usr",	user);
+		}
+
+		return mv;
+	}
+	
 	
 }
