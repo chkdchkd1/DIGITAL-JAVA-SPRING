@@ -1,0 +1,20 @@
+
+1.jdk
+2.jre
+3.sts 다운로드 및 압축해제
+4. springtoolSuite4.ini파일 내용 추가
+ * vmargs 위에 다음코드를 추가 (설치된 자바 버전에 따라 경로는 다를 수 있음
+-vm
+C:/Program Files/java/jdk-14.0.1/bin/javaw.exe
+5.sts 모듈 설치
+- 우측 상단에 돋보기 버튼 클릭 (Help > Eclipse marketplace)
+- market을 입력 후 marketplace를 선택
+- sts 검색 후 sts3를 선택하여 추가  
+
+(스프링 네거시 프로젝트를 위하여 )
+
+6. 새 프로젝트 만들기 (mvc를 다운로드드 해야 프로젝트를 가져 올 때 정상 실행이 됨)
+-spring legacy project 생성
+
+7.아파치 톰캣 9.0을 다운및 압축 해재 
+8. 컨트롤 + N => server를 선택후 아파치 톰캣이 설치된 경로로 가서 연결
