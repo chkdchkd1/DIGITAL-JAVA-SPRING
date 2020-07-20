@@ -3,6 +3,7 @@
     pageEncoding="UTF-8"%>
     
   <h2>Hover Rows</h2>
+  ${user}
   <p>The .table-hover class enables a hover state (grey background on mouse over) on table rows:</p>   
   <br>         
   <table class="table table-hover">

@@ -1,14 +1,11 @@
 package kr.green.spring.controller;
 
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Locale;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -40,6 +37,21 @@ public class HomeController {
 		return mv;
 	}
 	
+	@RequestMapping(value = "/", method = RequestMethod.POST)
+	public ModelAndView homePost(ModelAndView mv, UserVo user)  {
+		logger.info("URI:/");
+		UserVo dbUser = userService.isSignin(user);
+
+		if(dbUser != null) {
+			mv.setViewName("redirect:/board/list");
+			mv.addObject("user", dbUser);
+		}else 
+			mv.setViewName("redirect:/");
+
+		return mv;
+	}
+	
+
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public ModelAndView signupGet(ModelAndView mv)  {
 		logger.info("URI:/signup:GET");
@@ -58,11 +70,21 @@ public class HomeController {
 			//회원가입에 실패한경우 (아이디 중복 or 이메일 미기재)
 			mv.setViewName("redirect:/signup");
 			//redirect는 value로 넣어주어야 
-			mv.addObject("usr",	user);
+			mv.addObject("user",user);
 		}
 
 		return mv;
 	}
 	
+	
+	@RequestMapping(value = "/signout", method = RequestMethod.GET)
+	public ModelAndView signoutGet(ModelAndView mv, HttpServletRequest request)  {
+		logger.info("URI:/signout:GET");
+		
+		 mv.setViewName("redirect:/");
+		 request.getSession().removeAttribute("user");
+
+		return mv;
+	}
 	
 }

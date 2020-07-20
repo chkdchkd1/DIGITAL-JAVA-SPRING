@@ -1,7 +1,8 @@
 package kr.green.spring.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +14,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.green.spring.pagination.Criteria;
 import kr.green.spring.pagination.PageMaker;
+import kr.green.spring.service.UserService;
 import kr.green.spring.service.boardService;
 import kr.green.spring.vo.BoardVo;
+import kr.green.spring.vo.UserVo;
 
 @Controller
 public class BoardController {
@@ -23,11 +26,13 @@ public class BoardController {
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 	@Autowired
 	private boardService BoardService;
+	@Autowired
+	private UserService userService;
 	
 	//url주소와 쿼리스트링은 ?로 구분되며 변수와 값의 쌍으로 구성된다. 여러 쌍의 변수와 값을 전달할경우 각각의 쌍을 &로 구분해주면 된다.
 	// 매개 변수를 전달하는 쿼리입니다. ?pagename=navigation는 'navigation'값을 pagename 매개 변수에 전달합니다. 
 	@RequestMapping(value = "/board/list", method = RequestMethod.GET)
-	public ModelAndView boardListGet(ModelAndView mv, Criteria cri) {
+	public ModelAndView boardListGet(ModelAndView mv, Criteria cri, HttpServletRequest request) {
 		// 데이터를 전송하면 매개변수가 받는다 
 		// list?page=11 의 page는 cri의 멤버 변수 page ,
 		// 평소라면 integer page를 주고 list 그페이지의 리스트를 읽어 오게 하려했는데 cri로 줌으로써 멤버 변수와 이름이 같은걸 그냥 읽어오는~ 
@@ -89,31 +94,30 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/board/register", method = RequestMethod.POST)
-	public ModelAndView boardRegisterPost(ModelAndView mv, BoardVo board) {
+	public ModelAndView boardRegisterPost(ModelAndView mv, BoardVo board, HttpServletRequest request) {
 //		integer로 하는 이유는  null값을 넣을 수 있기 때문에 /board/detail? 으로와도 빈페이지를 보여주기위해서 int는 null X  
 		logger.info("URI:/board/register");
 		 mv.setViewName("redirect:/board/list");
 		 /*redirect : 링크를 다시 보내는것 */
 		 /*boardvo board를 매개변수로주면 name과 동일한게 있으면 그걸 보낸다 */
 		 /*-- 항상 뭔가 수정한걸 적용할 때는 새로고침을 필수 */
-		 System.out.println(board);
-		 BoardService.registerBoard(board);
-		
-		 
+		 BoardService.registerBoard(board,request);		
 		return mv;
 	}
 	
 	@RequestMapping(value = "/board/modify", method = RequestMethod.GET)
 	/* a 태그는 get 방식 수정버튼의 a 태그*/
-	public ModelAndView boardModifyGet(ModelAndView mv, Integer num) {
+	public ModelAndView boardModifyGet(ModelAndView mv, Integer num, HttpServletRequest request) {
 //		integer로 하는 이유는  null값을 넣을 수 있기 때문에 /board/detail? 으로와도 빈페이지를 보여주기위해서 int는 null X  
 		logger.info("URI:/board/modify:GET");
 		 mv.setViewName("/board/modify");
-		 
 		 logger.info("전송된 글번호 :"+num);
 		 BoardVo board = null;
+		 UserVo user = userService.getUser(request);
 		 if(num !=null) {
 			 board = BoardService.getBoard(num);
+			 if(user == null || !board.getWriter().equals(user.getId()))
+				 mv.setViewName("redirect:/board/list");
 		 }
 		 mv.addObject("board", board);
 	
@@ -124,23 +128,24 @@ public class BoardController {
 	
 	@RequestMapping(value = "/board/modify", method = RequestMethod.POST)
 	/* 수정하기는 post 이기에 */
-	public ModelAndView boardModifyPost(ModelAndView mv,BoardVo board) {
+	public ModelAndView boardModifyPost(ModelAndView mv,BoardVo board,HttpServletRequest request) {
 		logger.info("URI:/board/modify:POST");
 		 mv.setViewName("redirect:/board/list");
 		 /*post는 보통 redirect로 같이 온다. redirect : 이 작업이 끝나면 여기로 가긔 (setviewname 여기를 보여줘라)*/
 		 /*modify.jsp의 name이 BoardVo의 멤버 변수랑 같아야한다. BoardVo의 이름이 중요 X 같은게 중요*/
-		 BoardService.updateBoard(board);
+		 UserVo user = userService.getUser(request);
+		 BoardService.updateBoard(board,user);
 		 /*새로운 게시판 정보를 알려줄테니까 업데이트를 해라 ~*/
 		 
 		return mv;
 	}
 	
 	@RequestMapping(value = "/board/delete", method = RequestMethod.GET)
-	public ModelAndView boardDeleteGet(ModelAndView mv,Integer num) {
+	public ModelAndView boardDeleteGet(ModelAndView mv,Integer num, HttpServletRequest request) {
 		logger.info("URI:/board/delete:GET");
 		 mv.setViewName("redirect:/board/list");
 	
-		 BoardService.deleteBoard(num);
+		 BoardService.deleteBoard(num, userService.getUser(request));
 		 /*삭제하고싶은 글 번호를 줄테니 동일한 넘버의 db를 지워라..?*/
 		 /*컨트롤러 ->서비스에 역할 분담 */
 		 
