@@ -4,10 +4,10 @@ import kr.green.springtest.vo.UserVo;
 
 public interface UserService {
 
-	
-
 	UserVo getUser(String id);
 
-	UserVo isUser(UserVo inputUser);
+	boolean signup(UserVo user);
+
+	UserVo isSignin(UserVo user);
 
 }
