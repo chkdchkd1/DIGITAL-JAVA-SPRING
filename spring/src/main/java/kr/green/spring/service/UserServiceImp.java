@@ -56,6 +56,7 @@ public class UserServiceImp implements UserService {
 	public UserVo getUser(HttpServletRequest request) {
 		
 		return (UserVo)request.getSession().getAttribute("user");
+		//가져올땐 UserVo로 가져와야하니까 형변환(?)
 	}
 	
 
