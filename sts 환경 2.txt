@@ -16,5 +16,7 @@ C:/Program Files/java/jdk-14.0.1/bin/javaw.exe
 6. 새 프로젝트 만들기 (mvc를 다운로드드 해야 프로젝트를 가져 올 때 정상 실행이 됨)
 -spring legacy project 생성
 
+https://all-record.tistory.com/156(참고)
+
 7.아파치 톰캣 9.0을 다운및 압축 해재 
 8. 컨트롤 + N => server를 선택후 아파치 톰캣이 설치된 경로로 가서 연결
