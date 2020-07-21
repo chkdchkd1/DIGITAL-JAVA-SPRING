@@ -1,5 +1,7 @@
 package kr.green.springtest.service;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,11 +19,11 @@ public class UserServiceImp implements UserService {
 	BCryptPasswordEncoder passwordEncoder;
 
 	@Override
-	public UserVo getUser(String id) {
+	public UserVo getUser(HttpServletRequest request) {
 		// TODO Auto-generated method stub
-		return userDao.getUser(id);
+		return (UserVo)request.getSession().getAttribute("user");
 	}
-
+// 오버라이딩 오버로드 구분,, 
 //	@Override
 //	public UserVo isUser(UserVo inputUser) {
 //		/* 일반적으로 로그인 과정은 db에서 아이디와 일치하는 정보를 가져와서 입력받은 아이디와 가져온 정보 중 비밀번호를 비교하여 로그인을 결정한다

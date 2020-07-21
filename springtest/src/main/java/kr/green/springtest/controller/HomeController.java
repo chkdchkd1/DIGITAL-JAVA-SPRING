@@ -3,6 +3,8 @@ package kr.green.springtest.controller;
 import java.text.DateFormat;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +27,7 @@ public class HomeController {
 	private UserService userService;
 	
 	@RequestMapping(value = "/",method = RequestMethod.GET)
-	public ModelAndView home(ModelAndView mv, UserVo inputUser ) {
-		logger.info("URI:/");
+	public ModelAndView home(ModelAndView mv) {
 		mv.setViewName("/main/home");
 		
 		return mv;
@@ -44,12 +45,21 @@ public class HomeController {
 		if (dbUser != null ) {
 			mv.setViewName("redirect:/board/list");
 			mv.addObject("user", dbUser);
+			// - jsp에서 ${user} 이런 식으로 사용 ㄱㄴ 
 		}else {
 			mv.setViewName("redirect:/");
 		}
 		
 		return mv;
 	}
+	
+	@RequestMapping(value = "/user/signin", method = RequestMethod.GET)
+	public ModelAndView signinGet(ModelAndView mv) {
+		logger.info("URI:/signin:Get");
+		mv.setViewName("/main/home");
+		return mv;
+	}
+	
 	
 	
 	@RequestMapping(value = "/user/signup", method = RequestMethod.GET)
@@ -77,7 +87,21 @@ public class HomeController {
 	}
 	
 	
+	@RequestMapping(value = "/logout",method = RequestMethod.GET)
+	public ModelAndView logoutGEt(ModelAndView mv, HttpServletRequest request) {
+		logger.info("URI:/logout");
+		mv.setViewName("redirect:/");
+		
+		request.getSession().removeAttribute("user");
+		
+		return mv;
+	}
 	
+	
+//servlet-context.html
+//beans: bean =  요소를 등록
+//bean id랑 beans:ref bean이랑 일치 시켜주어야 한다 
+//<interceptors> = 여러개의 interceptors가 온다 
 	
 	
 	

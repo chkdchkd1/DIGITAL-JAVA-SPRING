@@ -38,6 +38,33 @@
 	</beans:bean>
 
 	
+	 <beans:bean id="loginInterceptor" 
+		class="kr.green.springtest.interceptor.LoginInterceptor"></beans:bean>
+	<beans:bean id="AuthInterceptor" 
+		class="kr.green.springtest.interceptor.AuthInterceptor"></beans:bean>
+	<beans:bean id="AuthlogInterceptor" 
+		class="kr.green.springtest.interceptor.Authloginterceptor"></beans:bean>
+		
+	<interceptors>
+		<interceptor>
+			<mapping path="/"/>
+			<beans:ref bean="loginInterceptor"/>
+		</interceptor>
+		
+		<interceptor>
+			<mapping path="/board/modify"/>
+			<mapping path="/board/delete"/>
+			<mapping path="/board/register"/>
+			<beans:ref bean="AuthInterceptor"/>
+		</interceptor>
+		
+		<interceptor>
+			<mapping path="/user/signin"/>
+			<mapping path="/user/signup"/>
+			<beans:ref bean="AuthlogInterceptor"/>
+		</interceptor>
+	</interceptors>
+	
 	
 	
 </beans:beans>

@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +31,8 @@ public class BoardController {
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 	@Autowired
 	private BoardService boardService;
-	
+	@Autowired
+	private UserService userService;
 
 	@RequestMapping(value = "/board/list",method = RequestMethod.GET)
 	public ModelAndView BoardListGet(ModelAndView mv,Criteria cri) {
@@ -71,36 +74,46 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/board/register", method = RequestMethod.POST)
-	public ModelAndView BoardRegisterPost(ModelAndView mv, BoardVo board) {
+	public ModelAndView BoardRegisterPost(ModelAndView mv, BoardVo board,HttpServletRequest request) {
 		logger.info("URI:/board/register");
 		mv.setViewName("redirect:/board/list"); // 저 위치와 연결 
 
-		boardService.registerBoard(board);
+		boardService.registerBoard(board,request);
 		
 		return mv;
 	}
 	
 	@RequestMapping(value = "/board/modify", method = RequestMethod.GET)
-	public ModelAndView boardModifyGet(ModelAndView mv, Integer num) {
+	public ModelAndView boardModifyGet(ModelAndView mv, Integer num, HttpServletRequest request) {
 		mv.setViewName("/board/modify");
 		BoardVo board = boardService.getBoardDetail(num);
 		mv.addObject("board",board);
+		UserVo user = userService.getUser(request);
+		if(board == null || !user.getId().equals(board.getwriter())) {
+			mv.setViewName("redirect:/board/list"); 
+			//리다이렉트(redirect) 클라이언트가 새로 페이지를 요청한 것과 같은 방식으로 페이지가 이동됨 
+			// - request, response가 유지되지 않는다 (새로 만들어짐)
+			// - 이동된 url가 화면에 보인다
+			
+		}
 		return mv;
 	}
 	
 	@RequestMapping(value = "/board/modify", method = RequestMethod.POST)
-	public ModelAndView boardModifyGet(ModelAndView mv, BoardVo board) {
+	public ModelAndView boardModifyGet(ModelAndView mv, BoardVo board,HttpServletRequest request) {
 		mv.setViewName("redirect:/board/list");
-		boardService.updateBoard(board);
+		UserVo user = userService.getUser(request);
+		boardService.updateBoard(board,user);
 		return mv;
 	}
 	
 	
 	@RequestMapping(value = "/board/delete", method = RequestMethod.GET)
-	public ModelAndView BoardDeleteGet(ModelAndView mv, Integer num) {
-		mv.setViewName("redirect:/board/list"); // 저 위치와 연결 
-		
-		boardService.deleteBoard(num);
+	public ModelAndView BoardDeleteGet(ModelAndView mv, Integer num, HttpServletRequest request) {
+				
+		boardService.deleteBoard(num, userService.getUser(request));
+		mv.setViewName("redirect:/board/list"); 
+		// 저 위치와 연결 
 		return mv;
 	}
 	

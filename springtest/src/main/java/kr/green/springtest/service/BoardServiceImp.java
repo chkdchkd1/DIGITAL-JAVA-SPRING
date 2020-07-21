@@ -2,6 +2,9 @@ package kr.green.springtest.service;
 
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,7 @@ import kr.green.springtest.dao.BoardDao;
 import kr.green.springtest.pagination.Criteria;
 import kr.green.springtest.pagination.PageMaker;
 import kr.green.springtest.vo.BoardVo;
+import kr.green.springtest.vo.UserVo;
 
 @Service
 public class BoardServiceImp implements BoardService {
@@ -34,7 +38,11 @@ public class BoardServiceImp implements BoardService {
 	
 
 	@Override
-	public void registerBoard(BoardVo board) {
+	public void registerBoard(BoardVo board, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		UserVo user = (UserVo)session.getAttribute("user");
+		if(user == null ) return ; 
+		board.setwriter(user.getId());
 		boardDao.registerBoard(board);
 		
 	}
@@ -50,18 +58,20 @@ public class BoardServiceImp implements BoardService {
 	}
 
 	@Override
-	public void deleteBoard(Integer num) {
-		BoardVo board = boardDao.getBoardDetail(num);
-		if(board == null)
-				return;
-		board.setIsDel('Y');
-		board.setDelDate(new Date());
-		boardDao.updateBoard(board);;
-		
+	public void deleteBoard(Integer num, UserVo user) {
+		if(num != null && user != null) {
+			BoardVo board = boardDao.getBoardDetail(num);
+				if(board == null || !user.getId().equals(board.getwriter())) return;
+			board.setIsDel('Y');
+			board.setDelDate(new Date());
+			boardDao.updateBoard(board);;
+		}
 	}
 
 		@Override
-		public void updateBoard(BoardVo board) {
+		public void updateBoard(BoardVo board, UserVo user) {
+		
+			board.setwriter(user.getId());
 			board.setIsDel('N');
 			boardDao.updateBoard(board);
 		
@@ -77,6 +87,7 @@ public class BoardServiceImp implements BoardService {
 			return pm;
 		}
 
+		
 	
 
 }
