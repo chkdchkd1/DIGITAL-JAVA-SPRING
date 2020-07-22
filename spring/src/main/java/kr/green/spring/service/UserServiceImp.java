@@ -58,6 +58,11 @@ public class UserServiceImp implements UserService {
 		return (UserVo)request.getSession().getAttribute("user");
 		//가져올땐 UserVo로 가져와야하니까 형변환(?)
 	}
+
+	@Override
+	public UserVo getUser(String id) {
+		return userDao.getUser(id);
+	}
 	
 
 	

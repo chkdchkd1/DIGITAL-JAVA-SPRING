@@ -12,6 +12,8 @@ public interface UserService {
 
 	UserVo getUser(HttpServletRequest request);
 
+	UserVo getUser(String id);
+
 	
 
 }

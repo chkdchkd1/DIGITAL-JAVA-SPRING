@@ -132,3 +132,18 @@
      font-size: 16pt;
      border: none;
  }
+ 
+ .dup-fail-msg,.dup-suc-msg{
+	color : red;
+	line-height: 13px;
+	margin-bottom : 10px;
+	font-size: 12px
+	}
+	
+ .dup-suc-msg{
+ 	color : green;
+ }
+	
+.display-none{
+	display:none;
+}
