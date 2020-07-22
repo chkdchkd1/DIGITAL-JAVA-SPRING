@@ -22,6 +22,10 @@ public interface BoardDao {
 	void deleteBoard(@Param("num")Integer num);
 
 	int getTotalCount(@Param("cri")Criteria cri);
+
+	void insertLike(@Param("boNum") int boNum, @Param("id") String id);
+
+	int isLike(@Param("boNum") int boNum, @Param("id")String id);
 	
 	/*@Param은 매개변수가 2개 이상 올 때 꼭 붙여줘야한다.*/
 

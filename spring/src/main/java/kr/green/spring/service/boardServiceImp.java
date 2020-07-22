@@ -83,5 +83,19 @@ public class boardServiceImp implements boardService {
 		return pm;
 	}
 
+	@Override
+	public int updateLike(String num, String id) {
+		if(boardDao.isLike(Integer.parseInt(num), id) == 0 ) {
+			boardDao.insertLike(Integer.parseInt(num), id);
+		} else {
+			return -1;
+		}
+		BoardVo board = boardDao.getBoard(Integer.parseInt(num));
+		boardDao.updateBoard(board);
+		board = boardDao.getBoard(Integer.parseInt(num));
+		// detail에서 추천 버튼 눌렀을 때 바로 추천수가 카운트 되기 위해서 
+		return board.getLike();
+	}
+
 
 }

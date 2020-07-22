@@ -1,21 +1,34 @@
 package kr.green.spring.controller;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.green.spring.pagination.Criteria;
 import kr.green.spring.pagination.PageMaker;
 import kr.green.spring.service.UserService;
 import kr.green.spring.service.boardService;
+import kr.green.spring.utils.UploadFileUtils;
 import kr.green.spring.vo.BoardVo;
 import kr.green.spring.vo.UserVo;
 
@@ -28,6 +41,8 @@ public class BoardController {
 	private boardService BoardService;
 	@Autowired
 	private UserService userService;
+//	@Resource
+	private String uploadPath = "C:\\Users\\Administrator\\Desktop\\upload";
 	
 	//url주소와 쿼리스트링은 ?로 구분되며 변수와 값의 쌍으로 구성된다. 여러 쌍의 변수와 값을 전달할경우 각각의 쌍을 &로 구분해주면 된다.
 	// 매개 변수를 전달하는 쿼리입니다. ?pagename=navigation는 'navigation'값을 pagename 매개 변수에 전달합니다. 
@@ -94,14 +109,17 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/board/register", method = RequestMethod.POST)
-	public ModelAndView boardRegisterPost(ModelAndView mv, BoardVo board, HttpServletRequest request) {
+	public ModelAndView boardRegisterPost(ModelAndView mv, BoardVo board, HttpServletRequest request , MultipartFile file2) throws Exception  {
 //		integer로 하는 이유는  null값을 넣을 수 있기 때문에 /board/detail? 으로와도 빈페이지를 보여주기위해서 int는 null X  
 		logger.info("URI:/board/register");
 		 mv.setViewName("redirect:/board/list");
 		 /*redirect : 링크를 다시 보내는것 */
 		 /*boardvo board를 매개변수로주면 name과 동일한게 있으면 그걸 보낸다 */
 		 /*-- 항상 뭔가 수정한걸 적용할 때는 새로고침을 필수 */
+		 String fileName = UploadFileUtils.uploadFile(uploadPath, file2.getOriginalFilename(),file2.getBytes());
+		 board.setFile(fileName);
 		 BoardService.registerBoard(board,request);		
+		 
 		return mv;
 	}
 	
@@ -153,12 +171,54 @@ public class BoardController {
 	}
 	
 	
+	@RequestMapping(value = "/board/like")
+	@ResponseBody
+	public Map<Object, Object> boardLike(@RequestBody String num, HttpServletRequest request){
+	    Map<Object, Object> map = new HashMap<Object, Object>();
+	    UserVo user = userService.getUser(request);
+	    if(user == null ) {
+	    	map.put("isUser", false);
+	  	
+	    }else {
+	    	map.put("isUser", true);
+	    	int like = BoardService.updateLike(num,user.getId());
+	    	map.put("like", like);
+	    	
+	    }
+
+	    return map;
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping("/board/download")
+	public ResponseEntity<byte[]> downloadFile(String fileName)throws Exception{
+	    InputStream in = null;
+	    ResponseEntity<byte[]> entity = null;
+	    try{
+	        
+	        HttpHeaders headers = new HttpHeaders();
+	        // HttpHeader라는 객체를 생성해서 이미지를 보낸다 
+	        in = new FileInputStream(uploadPath+fileName);
+	        //파일을 읽어옴 = fileinputStream
+
+	        fileName = fileName.substring(fileName.indexOf("_")+1);
+	        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+	        headers.add("Content-Disposition",  "attachment; filename=\"" 
+				+ new String(fileName.getBytes("UTF-8"), "ISO-8859-1")+"\"");
+	        entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in),headers,HttpStatus.CREATED);
+	    }catch(Exception e) {
+	        e.printStackTrace();
+	        entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
+	    }finally {
+	        in.close();
+	    }
+	    return entity;
+	}
 	
 	
 	/* controller > service > serviceImp > dao > mapper 순으로 진행 ,, !  */
 	/* */
 	
-	
- 
 
-}
+	}
