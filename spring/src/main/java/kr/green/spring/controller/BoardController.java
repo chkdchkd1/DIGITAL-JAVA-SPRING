@@ -187,6 +187,7 @@ public class BoardController {
 	    }
 
 	    return map;
+	    //@RequestBody는 매개변수를 몇개를 건내주어도 하나만 인식한다 
 	}
 	
 	
