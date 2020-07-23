@@ -1,0 +1,35 @@
+1. ajax를 이용해서 아이디 중복 검사 
+2. 게시판에 추천 기능 달기
+- detail.jsp에 추천수 - 추천버튼 만들기
+- db에 like 테이블 추가( 아이디, 게시글번호 ), board테이블에 up 속성 추가 값은 0 
+-클릭하면 ajax는 클릭이 일어난 게시글번호(어떤글의 추천수를 올려야하는지,,) 를 controlloer에 ->  ,
+-> (이때 로그인 한사람만 추천할 수있기때문에 로그인유지 request를 매개로 준다 )->로그인 ㅏㄴ햇으면 false ->햇으면 true (usercheck) 하고 해당 게시물의 추천수(upcount)를 map에 넣어서 보낸다
+
+추천수를 올린다 
+-> (한 게시글당 한번만 추천수를 올릴 수 있게한다.)
+	 = 아이디랑 게시글번호를 매개변수로 up테이블 에서 조회한다. ( count)  
+	= count했을 때 0이 아니면 return -1  (이미 추천함)
+	= count했을때 0 이면 -> up 테이블 정보 추가,  board 페이지의 up 속성에도 정보를 추가해준다. 
+   
+    ->  board 상세페이지 가져와서 그걸로 게시판 업데이트 ( 업데이트 할 때  up 테이블에서 게시글번호로 조회해서 그 수를 count 해서 board.up에 넣는다)  
+     -> 업데이트한 게시판의 상세페이지를 읽는다
+    -> 그 상세페이지의 좋아요 수를 return한다 
+
+
+
+
+ajax가 추천수(upcount) 와 로그인(usercheck) 상태 받고 
+
+usercheck false면 - 로그인 해야 가능 alert
+upcount 
+-1면 이미 추천한 글
+upcount
+0 이상이면 화면에 보이는 추천수를 받은 추천수로 변경 
+
+
+1.DB board테이블에 up 속성 추가  기본값은 0
+2.DB up테이블 추가 (num, id, bonum)
+3. BoardVo속성 up 추가 getter/setter , toString
+4. detail.jpst 추천 버튼, 추천수 input
+5. 추천버튼 클릭시 ajax 이용
+6. 컨트롤러 up버튼에 맞는 기능 구현  
