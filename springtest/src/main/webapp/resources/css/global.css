@@ -187,3 +187,19 @@ body{
      font-size: 16pt;
      border: none;
  }
+ 
+ .fail-msg, .succ-msg{
+ 
+ 	font-size: 12px;
+ 	line-height:12px;
+ 	color : red;
+ 	margin-bottom:10px;
+ }
+ 
+ .succ-msg{
+ 	color : green;
+ }
+ 
+ .display-none{
+ 	display:none;
+ }

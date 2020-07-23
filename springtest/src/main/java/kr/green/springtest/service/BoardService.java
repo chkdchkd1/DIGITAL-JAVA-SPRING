@@ -25,4 +25,6 @@ public interface BoardService {
 
 	PageMaker getPageMaker(Criteria cri);
 
+	int updateUp(Integer num, String id);
+
 }

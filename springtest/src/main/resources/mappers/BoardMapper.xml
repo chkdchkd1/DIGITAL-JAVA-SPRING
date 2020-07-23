@@ -36,7 +36,8 @@
     		isDel = #{board.isDel},
     		delDate = #{board.delDate},
     		views = #{board.views}
-    	where 
+<!--     		, up = (select count(*) from spring.up where boardNum = #{board.num})
+ -->    	where 
     		num = #{board.num} 
   </update>
   <insert id="registerBoard">
@@ -63,4 +64,22 @@
     		and content like concat('%',#{cri.search},'%')
     	</if>
   </select>
+  
+   	<insert id="insertUp">
+  		insert into 
+  			spring.up(idUser,boardNum)
+  			values(#{id},#{num})
+    </insert> 
+  
+  <select id="selectUp" resultType ="int">
+  	select count(*) from up where boardNum = #{num} and idUser =#{id}
+  </select>
+  
+  <update id="updateBoardByUp">
+  	update board
+  		set 
+  			up = (select count(*) from spring.up where boardNum = #{num})
+  		where
+  			num = #{num}
+  </update>
 </mapper>

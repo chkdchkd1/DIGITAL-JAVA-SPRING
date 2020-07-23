@@ -13,6 +13,14 @@ public class BoardVo {
 	private char isDel;
 	private int views;
 	private Date delDate;
+	private int up;
+	
+	public int getUp() {
+		return up;
+	}
+	public void setUp(int up) {
+		this.up = up;
+	}
 	public int getNum() {
 		return num;
 	}
@@ -77,8 +85,10 @@ public class BoardVo {
 	public String toString() {
 		return "BoardVo [num=" + num + ", title=" + title + ", writer=" + writer + ", content=" + content
 				+ ", registerDate=" + registerDate + ", isDel=" + isDel + ", views=" + views + ", delDate=" + delDate
-				+ "]";
+				+ ", up=" + up + "]";
 	}
+	
+	
 	
 
 }

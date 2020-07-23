@@ -2,7 +2,9 @@ package kr.green.springtest.controller;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,8 +13,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.green.springtest.pagination.Criteria;
@@ -116,6 +120,27 @@ public class BoardController {
 		// 저 위치와 연결 
 		return mv;
 	}
+	
+	
+	@RequestMapping(value ="/board/up" , method = RequestMethod.POST)
+	//method를 생략하면 get post 둘다 ㄱㄴ 하지만 추천수를 GET으로 주면 외부에서 URL로 접근해서 추천수를 올릴 수 있기 때문에 (다른아이디로 URL바꾸면 ㄱㄴ) POST로 해주는 것이 좋다 
+	@ResponseBody
+	public Map<Object, Object> upCount(@RequestBody Integer num,HttpServletRequest request){
+
+	    Map<Object, Object> map = new HashMap<Object, Object>();
+	    //현재 로그인중인 유저 정보 
+	    UserVo user = userService.getUser(request);
+	    if (user == null)
+	    	map.put("usercheck",false);
+	    else {
+	    	map.put("usercheck",true);
+	    	int up = boardService.updateUp(num, user.getId());
+	    	map.put("upcount",up);
+	    }
+	    // 클릭하고 로그인을 했을 경우 true, 내가 누른 게시물의 좋아요수 총합을 보낸다 . 
+	    return map;
+	}
+	
 	
 }
 
