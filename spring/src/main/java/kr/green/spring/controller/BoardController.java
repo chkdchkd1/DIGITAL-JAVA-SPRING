@@ -1,6 +1,7 @@
 package kr.green.spring.controller;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -146,13 +147,26 @@ public class BoardController {
 	
 	@RequestMapping(value = "/board/modify", method = RequestMethod.POST)
 	/* 수정하기는 post 이기에 */
-	public ModelAndView boardModifyPost(ModelAndView mv,BoardVo board,HttpServletRequest request) {
+	public ModelAndView boardModifyPost(ModelAndView mv,BoardVo board,HttpServletRequest request , MultipartFile file2) throws IOException, Exception {
 		logger.info("URI:/board/modify:POST");
 		 mv.setViewName("redirect:/board/list");
 		 /*post는 보통 redirect로 같이 온다. redirect : 이 작업이 끝나면 여기로 가긔 (setviewname 여기를 보여줘라)*/
 		 /*modify.jsp의 name이 BoardVo의 멤버 변수랑 같아야한다. BoardVo의 이름이 중요 X 같은게 중요*/
 		 UserVo user = userService.getUser(request);
+		 
+		 if(file2.getOriginalFilename().length() != 0 ) {
+			 String fileName = UploadFileUtils.uploadFile(uploadPath, file2.getOriginalFilename(),file2.getBytes());
+			 board.setFile(fileName);
+		 }else if(board.getFile().length() == 0 ) {
+			 //boardVo board 의 변수 file은 file이 없으면 빈문자열로 들어가기 때문에 마치 파일이 있는것처럼 ㅇㅕ겨질수있기에 null값을 넣어줘야함  (빈문자열과 null은 틀림 ) 
+			 board.setFile(null);
+			 
+		 }
+		 
 		 BoardService.updateBoard(board,user);
+		 System.out.println(board);
+		 System.out.println(file2.getOriginalFilename());
+		 
 		 /*새로운 게시판 정보를 알려줄테니까 업데이트를 해라 ~*/
 		 
 		return mv;

@@ -9,7 +9,7 @@ import org.springframework.util.FileCopyUtils;
 
 
 	public class UploadFileUtils {
-		
+			// 서버에 파일을 업로드하고 (파일 업로드 시 폴더가 없으면 폴더를 생성) 업로드된 파일명(서버경로제외) 을 알려주는 메서드 
 		public static String uploadFile(String uploadPath, String originalName, byte[] 	
 				fileData)throws Exception{
 			// 파일을 업로드하는 메소드
@@ -29,6 +29,7 @@ import org.springframework.util.FileCopyUtils;
 			return uploadFileName;
 		}
 		
+		// 서버 경로에 업로드 날짜를 기준으로 폴더를 체크하여 날짜경로를 알려주는 메서드 , return 값이 /년도/월/일 이 반환 (폴더가 없으면 생성)
 		private static String calcPath(String uploadPath) {
 			//업로드한 파일을 저장할 경로를 계산하는 메소드
 			// 날짜를 생성
@@ -46,6 +47,7 @@ import org.springframework.util.FileCopyUtils;
 			return datePath;
 	 
 		}
+		//uploadPath 기준으로 path 폴더가 없으면 만드는 메서드 
 		private static void makeDir(String uploadPath, String... paths) {
 				//폴더를 생성하는 메소드
 			if(new File(uploadPath+paths[paths.length-1]).exists())
@@ -57,6 +59,8 @@ import org.springframework.util.FileCopyUtils;
 				//이경로르를깆고 (폴더르 만드능..) 
 			}
 		}
+		// 날짜경로와 파일명을 합친 문자열을 반환 
+		// /년도/월/일/uuid_파일명.확장자
 		private static String makeIcon(String uploadPath, String path, String fileName)
 	        	throws Exception{
 			String iconName = uploadPath + path + File.separator + fileName;
