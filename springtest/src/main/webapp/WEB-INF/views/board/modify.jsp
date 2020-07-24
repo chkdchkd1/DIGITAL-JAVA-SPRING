@@ -41,6 +41,11 @@
 			 <textarea class="form-control" rows="5" name="content">${board.content}</textarea>
 			</div>
 			
+			<div class="form-group">
+	        <label>파일</label>
+	        <input type="file" class="form-control" name="file3"> ${board.oriFile}
+    		</div>
+			
 			  <a href="<%=request.getContextPath()%>/board/list">
 			  <button type="submit" class="btn btn-primary">목록</button></a>
 			  <button type="submit" class="btn btn-primary">수정</button>

@@ -14,7 +14,15 @@ public class BoardVo {
 	private int views;
 	private Date delDate;
 	private int up;
+	private String file;
 	
+	
+	public String getFile() {
+		return file;
+	}
+	public void setFile(String file) {
+		this.file = file;
+	}
 	public int getUp() {
 		return up;
 	}
@@ -81,14 +89,20 @@ public class BoardVo {
 	public void setDelDate(Date delDate) {
 		this.delDate = delDate;
 	}
+	
 	@Override
 	public String toString() {
 		return "BoardVo [num=" + num + ", title=" + title + ", writer=" + writer + ", content=" + content
 				+ ", registerDate=" + registerDate + ", isDel=" + isDel + ", views=" + views + ", delDate=" + delDate
-				+ ", up=" + up + "]";
+				+ ", up=" + up + ", file=" + file + "]";
 	}
 	
 	
+	public String getOriFile() {
+		int index = file.indexOf("_");
+		return file.substring(index+1);
+		//처음 언더바 뒤에 있는것을 추출 
+	}
 	
 
 }

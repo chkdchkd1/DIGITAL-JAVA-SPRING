@@ -35,15 +35,18 @@
     		content = #{board.content},
     		isDel = #{board.isDel},
     		delDate = #{board.delDate},
-    		views = #{board.views}
+    		views = #{board.views},
 <!--     		, up = (select count(*) from spring.up where boardNum = #{board.num})
- -->    	where 
+ -->    
+ 			file = #{board.file}
+
+ 		where 
     		num = #{board.num} 
   </update>
   <insert id="registerBoard">
   insert into 
-  	board (title,writer,content)
-	values (#{board.title}, #{board.writer}, #{board.content})
+  	board (title,writer,content,file)
+	values (#{board.title}, #{board.writer}, #{board.content},#{board.file})
   </insert>
   <select id="getTotalCount" resultType="int">
   	select count(*) from board

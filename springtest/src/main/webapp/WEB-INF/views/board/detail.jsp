@@ -44,10 +44,21 @@
 			  <input type="text" class="form-control" name="likenum" value="${board.up}" readonly>
 			  <button type="button" class ="btn btn-outline-success col-12" id="like">추천하기 </button>
 			</div>
+			
+			
 			<div class="form-group">
 			  <label>내용</label>
 			 <textarea class="form-control" rows="5" name="content" readonly >${board.content}</textarea>
 			</div>
+			
+			<c:if test = "${board.file != null}">
+			 <div class="form-group">
+  			<img src ="<%=request.getContextPath()%>/board/download?fileName=${board.file}" class= "max-small"><br>
+  			<a href = "<%=request.getContextPath()%>/board/download?fileName=${board.file}">${board.oriFile}</a>
+			</div>
+			</c:if>
+			
+			
 		</form>
 	</c:if>
 </c:if>
