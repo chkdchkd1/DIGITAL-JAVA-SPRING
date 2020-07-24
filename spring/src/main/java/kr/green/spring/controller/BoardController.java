@@ -159,6 +159,7 @@ public class BoardController {
 			 board.setFile(fileName);
 		 }else if(board.getFile().length() == 0 ) {
 			 //boardVo board 의 변수 file은 file이 없으면 빈문자열로 들어가기 때문에 마치 파일이 있는것처럼 ㅇㅕ겨질수있기에 null값을 넣어줘야함  (빈문자열과 null은 틀림 ) 
+			 // 원래 있던 파일을 삭제하려는 경우 
 			 board.setFile(null);
 			 
 		 }
