@@ -1,6 +1,7 @@
 package kr.green.springtest.controller;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -114,10 +115,31 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/board/modify", method = RequestMethod.POST)
-	public ModelAndView boardModifyGet(ModelAndView mv, BoardVo board,HttpServletRequest request) {
+	public ModelAndView boardModifyGet(ModelAndView mv, BoardVo board,HttpServletRequest request,MultipartFile file2) throws IOException, Exception  {
 		mv.setViewName("redirect:/board/list");
 		UserVo user = userService.getUser(request);
+		
+	
+			if(file2.getOriginalFilename().length() != 0) {
+				String fileName = UploadFileUtils.uploadFile(uploadPath,file2.getOriginalFilename(),file2.getBytes()); 
+				board.setFile(fileName); 
+				} else if (board.getFile().length() == 0) {
+					System.out.println(file2.getOriginalFilename()); 
+					board.setFile(null);
+					}
+		
+			// if(!file2.getOriginalFilename().equals("")) {
+			// ~~   }
+			//	else if ((board.getFile() == null ||board.getFile().equals(""))
+			//}
+			
+			/*
+			 * 변수(variable)를 초기화(initialize)하는 관점에서 null은 어떠한 값으로도 초기화 되지 않았다. "" 는 빈 값으로
+			 * 초기화 되었다. 의 차이가 있습니다. 때문에 null 은 원칙적으로 ""와 비교할 수 없는 것입니다.
+			 */
 		boardService.updateBoard(board,user);
+		 System.out.println(board);
+		 System.out.println(file2.getOriginalFilename());
 		return mv;
 	}
 	

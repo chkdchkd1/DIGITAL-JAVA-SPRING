@@ -209,3 +209,7 @@ body{
     max-width: 300px;
     max-height: 300px;
 }
+
+label.error{
+	color:red;	
+}
