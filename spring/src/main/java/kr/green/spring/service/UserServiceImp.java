@@ -3,6 +3,7 @@ package kr.green.spring.service;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -62,6 +63,20 @@ public class UserServiceImp implements UserService {
 	@Override
 	public UserVo getUser(String id) {
 		return userDao.getUser(id);
+	}
+
+	@Override
+	public void newPw(String id, String newPw) {
+		 // 요청한 아이디의 회원 정보를 가져옴
+	    UserVo user = getUser(id.trim());
+	    // 한단어의 양 끝에 있는 공백을 제거함 trim()
+		String encodePW = passwordEncoder.encode(newPw);
+		if(user == null)  return ;
+		user.setPw(encodePW);
+		
+		userDao.updatePw(user);
+		
+		
 	}
 	
 

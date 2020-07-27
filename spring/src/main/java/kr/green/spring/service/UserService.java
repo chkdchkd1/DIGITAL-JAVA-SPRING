@@ -14,6 +14,8 @@ public interface UserService {
 
 	UserVo getUser(String id);
 
+	void newPw(String id, String newPw);
+
 	
 
 }
