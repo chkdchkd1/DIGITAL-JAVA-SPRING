@@ -4,12 +4,20 @@ servicelmp
 
 게시판
 -리스트
+-글 내용 자세히보기 
 -글쓰기
 -글수정
 -글삭제
 -페이지네이션
 -검색
--파일첨부 (파일수정)
+-파일첨부{
+ 파일다운로드
+
+ 파일수정 (modify.jsp만 수정함ㅇㅇ 컨트롤러랑 매퍼는 아직 x)
+ 파일삭제
+}
+
+
 -조회수 
 -추천
 
@@ -25,8 +33,30 @@ servicelmp
 -비밀번호 변경메일 보내기 
 
 
- alt f5 = clean project를 체크하면 파일이 날라가므로 주의! 파일체크한 후에 가동 , 프로젝트에 수정이 있는데 반영이 안될때 해주면 좋음 
+* alt f5 = clean project를 체크하면 파일이 날라가므로 주의! 파일체크한 후에 가동 , 프로젝트에 수정이 있는데 반영이 안될때 해주면 좋음 
 
-servlet-context
+* servlet-context
 <context:component-scan base-package="kr.green.practice.*" />
 	<!-- .* 를 달아주어야 .vo를 인식하며 이후 controller를 담고 있는 폴더에 .controller를 달아주어야 인식이 된다.   -->
+
+* 오타조심
+
+*boardServiceImp getPageMaker( Criteria cri)
+	PageMaker pm = new PageMaker();
+	int totalCount = boardDao.getTotalCount();
+	pm.setCriteria(cri);
+	pm.setTotalCount(totalCount);
+	// setTotalCount를 설정하면 바로 calcData()이 실행되기 때문에 그전에 cri를 넣어주어야한다 그래야 nullpointexception 발생 X
+
+*list.jsp에서 
+${pm.criteria.type} 쓰는 이유는 
+mv.addobject(|"pm|. pm)으로 내보냈기때문에 
+cri를 내보내지 않았ㄱ ㅣ때문에 결과적으로 불러서 읽어올 수 있는건 pm의 criteria 뿐임 ㅇㅇ 
+${pm.criteria.type} 이건 값을 넣어주는게 아니라 값을 읽어오는것임 ! 헷갈리지말것
+
+* <a href="<%=request.getContextPath()%>/board/detail?num=${board.num}&type=${pm.criteria.type}&search=${pm.criteria.search}">${board.title}</a></td>
+를 리스트에서 제목에 주어야 디테일에서 목록을 눌렀을 때 검색결과의 목록으로 가게 되는것
+저걸 제목에 주면 detail의 cri type과 search에 ${pm.criteria.type}와 ${pm.criteria.search}값이 들어간다 아마 cri의 변수명과 같아서 일듯 ㅇㅇ ..
+
+// list?page=11 의 page는 cri의 멤버 변수 page ,
+// 평소라면 integer page를 주고 list 그페이지의 리스트를 읽어 오게 하려했는데 cri로 줌으로써 멤버 변수와 이름이 같은걸 그냥 읽어오는~  
