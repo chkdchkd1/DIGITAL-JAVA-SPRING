@@ -39,9 +39,12 @@
   	update board
   		set 
   			title = #{board.title},
+  			writer = #{board.writer},
   			content = #{board.content},
   			isDel = #{board.isDel},
-  			delDate = #{board.delDate}
+  			delDate = #{board.delDate},
+  			file = #{board.file}
+  			
   		where
   			num = #{board.num}
  </update>
@@ -67,5 +70,33 @@
     	</if>
  </select>
  
+ <update id="updateViews">
+  	update board 
+  		set 
+  		   views = views+1
+  		where
+  			num = #{num}
+  </update>
+  
+ <select id ="selectLike" resultType="int">
+ 	  select count(*) 
+    	from like
+    	where likeBoardNum = #{num} and likUser = #{id}
+ </select>
+  
+<insert id="insertLike">
+  	insert into 
+  			like(likeBoardNum,likeUser)
+  			values(#{num},#{id})
+</insert>
+  
+<update id="updateBoardByUp">
+  	update like 
+  		set 
+  		   like = (select count(*) from like where likeBoardNum = #{num})
+  		where
+  			num = #{num}
+</update>
+  
 </mapper>
 

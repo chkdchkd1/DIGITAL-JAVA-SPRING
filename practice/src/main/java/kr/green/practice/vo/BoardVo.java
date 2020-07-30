@@ -14,8 +14,17 @@ public class BoardVo {
 	private Date delDate;
 	private int views;
 	private String file;
+	private int like;
 	
 	
+	
+	
+	public int getLike() {
+		return like;
+	}
+	public void setLike(int like) {
+		this.like = like;
+	}
 	public int getNum() {
 		return num;
 	}
@@ -82,13 +91,14 @@ public class BoardVo {
 		this.file = file;
 	}
 	
+	
+	
 	@Override
 	public String toString() {
 		return "BoardVo [num=" + num + ", title=" + title + ", writer=" + writer + ", content=" + content
 				+ ", registerDate=" + registerDate + ", isDel=" + isDel + ", delDate=" + delDate + ", views=" + views
-				+ ", file=" + file + "]";
+				+ ", file=" + file + ", like=" + like + "]";
 	}
-	
 	public String getOriFile() {
 		int index = file.indexOf("_");
 		return file.substring(index+1);

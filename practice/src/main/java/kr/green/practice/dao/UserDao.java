@@ -2,9 +2,12 @@ package kr.green.practice.dao;
 
 import org.apache.ibatis.annotations.Param;
 
+import kr.green.practice.vo.UserVo;
+
 public interface UserDao {
 
-	String getUser(@Param("id")String id);
+	
+	UserVo selectSignin(@Param("id")String id);
 
 
 

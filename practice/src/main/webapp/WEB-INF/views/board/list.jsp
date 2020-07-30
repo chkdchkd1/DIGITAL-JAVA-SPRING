@@ -4,6 +4,7 @@
     
 
 <br>
+<label class="label-right">${user.id} 회원</label> 
 <form>
   <table class="table">
     <thead class="thead-dark">
@@ -65,5 +66,8 @@
     		<a class="page-link" href="<%=request.getContextPath()%>/board/list?page=${pm.endPage+1}&type=${pm.criteria.type}&search=${pm.criteria.search}"><i class="fas fa-angle-double-right"></i></a></li>
     </c:if>
   </ul>
-<a href="<%=request.getContextPath()%>/board/register"><button type="button" class="btn-right btn btn-dark">글쓰기</button></a>
+
+<c:if test="${user != null}"> 
+	<a href="<%=request.getContextPath()%>/board/register"><button type="button" class="btn-right btn btn-dark">글쓰기</button></a>
+</c:if>
 <br>

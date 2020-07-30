@@ -10,10 +10,6 @@
   <label>제목</label>
   <input type="text" class="form-control" name="title">
 </div>
-<div class="form-group">
-  <label>작성자</label>
-  <input type="text" class="form-control" name="writer"> 
-</div>
 
 <div class="form-group">
   <label >글내용:</label>

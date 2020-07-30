@@ -19,6 +19,14 @@ public interface BoardDao {
 	
 	int getTotalCount(@Param("cri")Criteria cri);
 
+	void updateViews(@Param("num")Integer num);
+
+	int selectLike(@Param("num")Integer num, @Param("id")String id);
+
+	void insertLike(@Param("num")Integer num, @Param("id")String id);
+
+	void updateBoardByUp(@Param("num")Integer num);
+
 
 
 }

@@ -46,7 +46,7 @@
 				})
 				
 			$('input[name=file2]').change(function(){
-					if( $('input[name=file]').val() == '' || $('input[name=file]').val() == null )
+					if( $('input[name=file]').val() == '' || $('input[name=file]').val() == null || typeof($('input[name=file]').val() == 'undefined'))
 						return ; 
 					$(this).val('');
 					alert('기존파일을 삭제한 후에 새로 첨부 할 수 있습니다.')

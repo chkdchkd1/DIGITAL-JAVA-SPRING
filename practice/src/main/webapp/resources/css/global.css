@@ -73,3 +73,7 @@ a:hover {
 .display-none{
 	display:none;
 }
+
+.label-right{
+	float:right;
+}
