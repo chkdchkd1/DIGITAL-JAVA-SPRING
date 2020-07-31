@@ -11,7 +11,7 @@
 	    	<ul class="navbar-nav">
 	    	<c:if test ="${user == null }">
 		      	<li class="nav-item">
-		        	<a class="nav-link" href="#">SIGN UP</a>
+		        	<a class="nav-link" href="<%=request.getContextPath()%>/signup">SIGN UP</a>
 		      	</li>
 		    </c:if>
 		    <c:if test ="${user != null }">

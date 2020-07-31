@@ -5,9 +5,6 @@
 <br>
 
 
-  <c:if test ="${user != null}">
-  <h1 class="display-4"> welcome! ${user.id}</h1>
-  </c:if>
 
 <c:if test ="${user == null}">
 <br>
@@ -23,7 +20,7 @@
       <input type="password" class="form-control" id="pw" placeholder="Enter password" name="pw">
     </div>
    
-    <button type="submit" class="btn btn-primary">로그인</button>
+    <button type="submit" name="login" class="btn btn-primary">로그인</button>
   </form>
 </div>
 </div>
@@ -32,7 +29,7 @@
 
 <script>
 	$(function(){
-		$('button').click(function(){
+		$('button[name=login]').click(function(){
 			if($('#id').val() == "" || $('#id').val() == null )
 				alert('아이디를 입력하세요.')
 				else if ($('#pw').val() == "" || $('#pw').val() == null )

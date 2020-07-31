@@ -9,6 +9,11 @@ public interface UserDao {
 	
 	UserVo selectSignin(@Param("id")String id);
 
+	void insertUser(@Param("user")UserVo user);
+
+	void updateUser(@Param("user")UserVo user);
+
+
 
 
 }

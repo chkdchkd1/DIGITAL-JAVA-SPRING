@@ -80,20 +80,21 @@
   
  <select id ="selectLike" resultType="int">
  	  select count(*) 
-    	from like
-    	where likeBoardNum = #{num} and likUser = #{id}
+    	from practice.like
+    	where likeBoardNum = #{num} and likeUser = #{id}
+ 
  </select>
   
 <insert id="insertLike">
   	insert into 
-  			like(likeBoardNum,likeUser)
+  			practice.like(likeBoardNum,likeUser)
   			values(#{num},#{id})
 </insert>
   
 <update id="updateBoardByUp">
-  	update like 
+  	update board 
   		set 
-  		   like = (select count(*) from like where likeBoardNum = #{num})
+  		   board.like = (select count(*) from practice.like where likeBoardNum = #{num})
   		where
   			num = #{num}
 </update>

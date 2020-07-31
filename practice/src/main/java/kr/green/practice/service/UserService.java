@@ -10,4 +10,12 @@ public interface UserService {
 
 	UserVo getUser(HttpServletRequest request);
 
+	boolean signUp(UserVo user);
+
+	UserVo getUser(String id);
+
+	boolean checkPw(UserVo user, String pw);
+
+	boolean modifyInfo(UserVo user);
+
 }

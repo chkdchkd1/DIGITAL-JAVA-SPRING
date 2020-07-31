@@ -201,12 +201,10 @@ public class BoardController {
 	    	map.put("isUser", false);
 	    } 
 	    	map.put("isUser", true);
-//	    	int likeCount = boardService.updateLike(num,user.getId()) ;
-//	    	map.put("likeCount", likeCount);
-	    	// 여기가 문제! 여기서부터 체크 ! 
+	    	int likeCount = boardService.updateLike(num,user.getId()) ;
+	    	map.put("likeCount", likeCount); 
 	    return map;
 	}
 	
-	
-	
+
 }

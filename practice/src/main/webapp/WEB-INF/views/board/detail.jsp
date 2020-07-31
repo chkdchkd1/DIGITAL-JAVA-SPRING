@@ -67,7 +67,16 @@
 		        dataType:"json",
 		        contentType:"application/json; charset=UTF-8",
 		        success : function(data){
-		            console.log(data);
+		        	 if(!data['isUser']){
+			        	 alert('로그인한 회원만 추천할 수 있습니다.')
+			        	 } else {
+
+			        		 if(data['likeCount'] < 0){
+				        		 alert('추천은 한번만 할 수 있습니다.')
+				        		 } else {
+					        		 $('input[name=like]').val(data['likeCount']);
+					        		 }
+				        	 }
 		        }
 		      
 			    });
