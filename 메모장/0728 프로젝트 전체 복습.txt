@@ -16,10 +16,8 @@ servicelmp
 }
 - 글수정 할 때 처음 글쓸때 파일첨부 안했는데도 엑스뜨는거 처리
 - 회원권한 설정 (삭제/ 수정/ 등록)  -> 이걸 한다음에 - AuthInterceptor.java?  이걸 해야함 
--조회수 (로그인 한사람만)
-
-
--추천 //컨트롤러 오류 수정 
+-조회수 
+-추천 // 매퍼 문법 오류였음 
 
 로그인 
 - id나 pw 입력 안하면 alert띄우기 
@@ -30,12 +28,16 @@ servicelmp
 (설명 참조 : https://victorydntmd.tistory.com/177)
 
 회원가입
--유효성검사
--아이디 중복검사
 -비밀번호 암호화
+-아이디 중복검사
+-유효성검사
+-회원가입 성공 실패 alert 띄우기
 
 메일보내기
 -비밀번호 변경메일 보내기 
+
+회원정보 수정
+- 비밀번호를 한번 더 받고 -> 수정할 수 있도록 설정 
 
 
 * alt f5 = clean project를 체크하면 파일이 날라가므로 주의! 파일체크한 후에 가동 , 프로젝트에 수정이 있는데 반영이 안될때 해주면 좋음 
@@ -67,36 +69,24 @@ ${pm.criteria.type} 이건 값을 넣어주는게 아니라 값을 읽어오는�
 // 평소라면 integer page를 주고 list 그페이지의 리스트를 읽어 오게 하려했는데 cri로 줌으로써 멤버 변수와 이름이 같은걸 그냥 읽어오는~  
 
 
+// 회원정보 수정하기 
 
+비밀번호 옆에 버튼 하나 달고 
+버튼 누르면 기존의 비밀번호랑 같은지 확인  (ajax)
+- 아이디와 입력한 비밀번호를 전달하고
+컨트롤에서 건네받은 아이디로 회원정보를 조회해서 user로 받아서 user.getpw과 들어온값을 암호화비교
+ 중복되지않으면 alert 확인되었습니다.
+ 같으면 alert 띄우고 리셋''; 
 
+비밀번호 재확인은 비밀번호랑 같아야 (유효성 검사활용)
 
- $(function(){
-		#('button[name=btn-like]').click(function(){
+이메일은 상관 X
 
-			var num = $('input[name=num]').val();
+이렇게 들어온 정보를 post로 보내서 이걸로 비밀번호는 암호화하고 userDB 업데이트 
 
-			$.ajax({
-		        async:true,
-		        type:'POST',
-		        data:num,
-		        url:"<%=request.getContextPath()%>/board/like",
-		        dataType:"json",
-		        contentType:"application/json; charset=UTF-8",
-		        success : function(data){
-		            console.log(data);
-		            if(!data['isUser']){
-						alert('로그인한 회원만 추천 할 수 있습니다.')
-			        } else {
-							 if(data['likeCount'] < 0) {
-									alert('추천은 한번만 할 수 있습니다.')
-								 } else{
-									 $('input[name=like]').val(data['likeCount']);
-								 }
-				        	}
+-> 무조건 확인을 눌러야지만 수정 버튼을 누를 수 있다. 
 
-			        	}
-			    });
+ -> 수정 버튼을 눌렀을때 컨트롤러로 정보를 보내고 여기서 중복된 비밀번호를 다시 등록하려는걸 막는걸
+해주어야하나 ㅇㅇ...여러개 정보를 보내려고할땐 ajax로 보내려고 할 때는 package kr.green.practice.controller;
+의 userinfo jsp , homecontroller 참조 
 
-			})
-
-	 })
